@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/api/customers/**
+          filters:
+            - StripPrefix=2
+        - id: credit-service
+          uri: lb://credit-service
+          predicates:
+            - Path=/api/credits/**
+          filters:
+            - StripPrefix=2
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/accounts/**
+          filters:
+            - StripPrefix=2
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+server:
+  port: 8090
